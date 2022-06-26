@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment No 2</title>
+</head>
+
+<script>
+
+    window.addEventListener("DOMContentLoaded", () => {
+        console.log("page loaded");
+        //*******************************************************************************************************************
+        //array
+
+        let arr = [{ empno: 50, empname: "Aniket", email: "jkfmn@", deptno: 60 },
+        { empno: 60, empname: "akshay", email: "fgvn@", deptno: 70 },
+        { empno: 70, empname: "Akash", email: "fjknwfkjvnn@", deptno: 80 }];
+
+        //**************************************************************************************************
+        //find details  // blur event
+        let find = document.querySelector("#empno");
+
+        find.addEventListener('blur', () => {
+
+
+            console.log("blur event");
+
+            let empno = document.querySelector("#empno").value;
+            let output = false;
+            for (let i = 0; i < arr.length; i++) {
+
+                if (arr[i].empno == empno) {
+
+                    document.querySelector("#empno").value = arr[i].empno;
+                    document.querySelector("#empname").value = arr[i].empname;
+                    document.querySelector("#email").value = arr[i].email;
+                    document.querySelector("#deptno").value = arr[i].deptno;
+
+                    document.querySelector("#modify").disabled = false;
+                    document.querySelector("#remove").disabled = false;
+                    document.querySelector("#viewAll").disabled = false;
+                    document.querySelector("#viewondeptno").disabled = false;
+                }
+             /*   else {
+                    document.querySelector("#empname").value = "";
+                    document.querySelector("#email").value = "";
+                    document.querySelector("#deptno").value = "";
+
+                    document.querySelector("#add").disabled = false;
+                }*/
+            }
+        });
+ 
+
+    //****************************************************************************************************
+    //view
+
+    let view = document.querySelector("#viewAll");
+    view.addEventListener('click', () => {
+        console.log("view click");
+
+        let output = viewAll();
+        console.log(output);
+
+    });
+
+    //****************************************************************************************************
+    //add
+
+    let add = document.querySelector("#add");
+    add.addEventListener('click', () => {
+        console.log("add click");
+
+        let addnew = document.querySelector("#empno").value;
+
+
+        let input = {
+            empno: document.querySelector("#empno").value, 
+            empname: document.querySelector("#empname").value,
+            email: document.querySelector("#email").value,
+            deptno: document.querySelector("#deptno").value
+        };
+        let output = addlogic(input);
+
+        if (output) {
+
+            document.querySelector("#modify").disabled = true;
+            document.querySelector("#remove").disabled = true;
+            document.querySelector("#viewAll").disabled = false;
+            document.querySelector("#viewondeptno").disabled = false;
+
+            document.querySelector("#msg").innerHTML = "Add new details";
+        }
+        else {
+            document.querySelector("#msg").innerHTML = "Not Add new details";
+        }
+
+    });
+
+
+    //**************************************************************************************************
+    //view all function
+
+    function viewAll() {
+        let output = "";
+        for (let i = 0; i < arr.length; i++) {
+            output += arr[i].empno + " " + arr[i].empname + " " + arr[i].email + " " + arr[i].deptno + "<br> ";
+        }
+        document.querySelector("#msg1").innerHTML = output;
+
+    }
+    //******************************************************************************************************
+
+    //modify
+
+    let modify = document.querySelector("#modify");
+    modify.addEventListener("click", () => {
+
+        console.log("modify clicked");
+
+        let empno = document.querySelector("#empno").value;
+
+        let output = modifylogic(empno);
+    });
+    //**********************************************************************************************
+
+    //remove
+
+    let remove1 = document.querySelector("#remove");
+
+    remove1.addEventListener('click', () => {
+
+        console.log("remove");
+
+        let empno = document.querySelector("#empno").value;
+
+        let output = removelogic(empno);
+    });
+
+    //***************************************************************************************************************
+    //add logic
+
+    function addlogic(input) {
+        let added = false;
+        arr.push(input);
+        added = true;
+        return added;
+    }
+
+
+    //************************************************************************************************
+
+    //modifylogic
+
+    function modifylogic(empno) {
+        let output = { result: false };
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].empno == empno) {
+                arr[i].empname = document.querySelector("#empname").value;
+                arr[i].email = document.querySelector("#email").value;
+                arr[i].deptno = document.querySelector("#deptno").value;
+                output.result = true;
+            }
+        }
+        return output;
+    }
+    //*******************************************************************************************************
+
+    //remove logic
+
+    function removelogic(empno) {
+        let output = { result: false };
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].empno == empno) {
+                arr[i].empno = "";
+                arr[i].empname = "";
+                arr[i].email = "";
+                arr[i].deptno = "";
+                output.result = true;
+            }
+        }
+        return output;
+
+    }
+
+    });
+</script>
+
+<body>
+    <input id="empno" type="text" placeholder="Employee No " />
+    <span id="msg">Message</span><br>
+    <input id="empname" type="text" placeholder="Employee Name " /><br>
+    <input id="email" type="text" placeholder="Employee email " /><br>
+    <input id="deptno" type="text" placeholder="dept No " /><br>
+
+    <input id="add" type="button" value="Add" disabled />
+    <input id="modify" type="button" value="modify" disabled />
+    <input id="remove" type="button" value="remove" disabled />
+    <input id="viewAll" type="button" value="viewAll" />
+    <input id="viewondeptno" type="button" value="view on dept no" /><br>
+
+    <span id="msg1">Message1</span><br>
+</body>
+
+</html>
